@@ -1,5 +1,6 @@
 #include "DaqState.h"
 #include "devices/SineDevice.h"
+#include "devices/ModbusDevice.h"
 #include "utils.h"
 #include <spdlog/spdlog.h>
 #include <cereal/inlineshim.hpp>
