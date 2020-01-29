@@ -18,7 +18,7 @@ public:
 	uint64_t lastPoll = 0;
 	uint8_t pollIndex = 0;
 	DaqDevice(std::string devParam, DeviceJson& conf): pollMode(static_cast<PollMode>(conf.pollMode)), pollRate(conf.pollRate) {}
-	virtual std::vector<DATA_TYPE> poll(std::string id) = 0;
+	virtual void poll(const std::string& id, std::vector<DATA_TYPE>& result) = 0;
 	virtual ~DaqDevice() {};
 };
 #endif //DAQ_DAEMON_DEVICEJSON_H

@@ -1,7 +1,3 @@
-//
-// Created by Jefferson on 1/27/2020.
-//
-
 #ifndef DAQ_DAEMON_DAQCONFIGJSON_H
 #define DAQ_DAEMON_DAQCONFIGJSON_H
 
@@ -16,13 +12,14 @@
 
 class DaqConfigJson {
 public:
-	std::string logPath = "ROTATE";
+	std::string logPath = "~/ROTATE.daqd.log";
+	std::uint64_t granularityMicro = 1000;
 	std::unordered_map<std::string, DeviceJson> devices;
 	std::unordered_map<std::string, std::vector<ItemJson>> items;
 
 	template<class Archive>
 	void serialize(Archive & archive) {
-		archive(CEREAL_NVP(logPath), CEREAL_NVP(devices), CEREAL_NVP(items));
+		archive(CEREAL_NVP(logPath), CEREAL_NVP(devices), CEREAL_NVP(items), CEREAL_NVP(granularityMicro));
 	}
 };
 #endif //DAQ_DAEMON_DAQCONFIGJSON_H

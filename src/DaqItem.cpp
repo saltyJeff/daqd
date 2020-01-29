@@ -12,7 +12,7 @@ void DaqItem::writeToStream(std::ostream &stream) {
 	}
 	stream << '|' << lastPoll << '\n';
 }
-void DaqItem::updateValues(std::vector<DATA_TYPE>& newVals) {
+void DaqItem::updateValues(const std::vector<DATA_TYPE>& newVals) {
 	int n = newVals.size();
 	values.resize(n);
 	for (int i = 0; i < n; i++) {

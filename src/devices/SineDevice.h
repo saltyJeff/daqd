@@ -9,7 +9,7 @@
 class SineDevice: public DaqDevice {
 public:
 	SineDevice(std::string devParam, DeviceJson &conf): DaqDevice(devParam, conf) {};
-	std::vector<DATA_TYPE> poll(std::string id);
+	void poll(const std::string& id, std::vector<DATA_TYPE> &result);
 };
 
 

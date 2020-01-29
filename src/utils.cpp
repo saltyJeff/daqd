@@ -1,6 +1,6 @@
 #include "utils.h"
-#include <chrono>
 #include <spdlog/spdlog.h>
+#include <ctime>
 
 time_t rawtime;
 struct tm * timeinfo;
@@ -14,9 +14,10 @@ std::string timeString() {
 	return str;
 }
 
+struct timespec timeSpec;
 uint64_t millis() {
-	using namespace std::chrono;
-	return duration_cast<milliseconds>(system_clock::now().time_since_epoch()).count();
+	clock_gettime(CLOCK_MONOTONIC_RAW, &timeSpec);
+	return (timeSpec.tv_sec * 1000) + timeSpec.tv_nsec / (1000 * 1000);
 }
 
 void nullErr(std::string msg, void* anyPtr, bool fatal) {

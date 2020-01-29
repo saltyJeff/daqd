@@ -67,6 +67,8 @@ void DaqState::loadConfig(DaqConfigJson &conf) {
 	// restore previous state
 	setLogging(prevClosing);
 	spdlog::info("Loaded new configuration");
+
+	spdlog::warn("New clock granularity: {}", conf.granularityMicro);
 }
 void DaqState::setLogging(bool logging) {
 	if(logging == this->logging) {
@@ -113,4 +115,16 @@ void DaqState::logItems(std::vector<DaqItem> &items) {
 		spdlog::error("Could not successfully write to the log file. Stopping the log");
 		setLogging(false);
 	}
+}
+DaqState::~DaqState() {
+	spdlog::info("Gracefully closing down state");
+	setLogging(false);
+	// devices will be automatically closed
+	// write backing state
+	backingFile.open(backingPath, std::fstream::trunc | std::fstream::out);
+	{
+		cereal::JSONOutputArchive oarchive(backingFile);
+		cereal::save_inline(oarchive, config);
+	}
+	backingFile.close();
 }

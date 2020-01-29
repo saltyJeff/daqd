@@ -1,7 +1,3 @@
-//
-// Created by Jefferson on 1/27/2020.
-//
-
 #ifndef DAQ_DAEMON_DEVICEJSON_H
 #define DAQ_DAEMON_DEVICEJSON_H
 

@@ -23,6 +23,7 @@ public:
 	void logItem(DaqItem &item);
 	void logItems(std::vector<DaqItem> &items);
 	void loadConfig(DaqConfigJson &conf);
+	~DaqState();
 private:
 	bool logging = false;
 	std::ofstream logger;

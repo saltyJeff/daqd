@@ -25,7 +25,7 @@ public:
 	DaqItem() {}; // exists for serialization purposes only
 	DaqItem(ItemJson &conf): name(conf.name), id(conf.id), offset(conf.offset), scale(conf.scale){};
 	void writeToStream(std::ostream &stream);
-	void updateValues(std::vector<DATA_TYPE> &newVals);
+	void updateValues(const std::vector<DATA_TYPE> &newVals);
 
 	template <class Archive>
 	void serialize(Archive& archive) {
