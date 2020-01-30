@@ -29,7 +29,8 @@ void ModbusDevice::poll(const std::string& id, std::vector<DATA_TYPE>& result) {
 	int deviceId, reg, numReg;
 	char regType;
 	sscanf(id.c_str(), "%d+%c@%d:%d", &deviceId, &regType, &reg, &numReg);
-	modbus_set_slave(mb, deviceId);
+	spdlog::debug("Parsed params: {} {} {} {} {}", deviceId, regType, reg, numReg);
+	//modbus_set_slave(mb, deviceId);
 	int ret;
 	switch (regType) {
 		case 'i': // input register
@@ -52,7 +53,7 @@ void ModbusDevice::poll(const std::string& id, std::vector<DATA_TYPE>& result) {
 	if (ret != 0) {
 		result.resize(1);
 		result[0] = errno;
-		spdlog::warn("Unable to read params {}: {} ({})", id, errno, std::strerror(errno));
+		spdlog::warn("Unable to read params {}: {} ({})", id, errno, modbus_strerror(errno));
 		return;
 	}
 	result.resize(numReg);
