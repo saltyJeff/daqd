@@ -1,0 +1,14 @@
+[Unit]
+Description=RP DAQ daemon
+StartLimitBurst=5
+StartLimitIntervalSec=10
+
+[Service]
+Type=simple
+Restart=always
+RestartSec=1
+User=pi
+ExecStart=/usr/local/bin/daqd
+
+[Install]
+WantedBy=multi-user.target
