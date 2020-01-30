@@ -28,11 +28,12 @@ DaqArgs::DaqArgs(int argc, char** argv) {
                 realtime = true;
                 break;
             default:
-                throw std::runtime_error("Invalid argument detected");
+                break;
+                //throw std::runtime_error("Invalid argument detected");
         }
     }
     if (optind != argc) {
-        throw std::runtime_error("Invalid argument detected");
+        //throw std::runtime_error("Invalid argument detected");
     }
 
     struct passwd* user = getpwuid(getuid());
