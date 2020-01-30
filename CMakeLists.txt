@@ -4,6 +4,7 @@ project(daq_daemon)
 set(CMAKE_CXX_STANDARD 17)
 
 set(THREADS_PREFER_PTHREAD_FLAG ON)
+set (CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -fsigned-char")
 find_package(Threads REQUIRED)
 
 include_directories(./include)
