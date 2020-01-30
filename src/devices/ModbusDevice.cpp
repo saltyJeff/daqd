@@ -1,6 +1,7 @@
 #include "ModbusDevice.h"
 #include "../utils.h"
 #include <spdlog/spdlog.h>
+#include <modbus/modbus-rtu.h>
 
 int ModbusDevice::numDevices = 0;
 modbus_t *ModbusDevice::mb = nullptr;
@@ -11,6 +12,7 @@ ModbusDevice::ModbusDevice(const std::string& params, DeviceJson& conf) : DaqDev
 			115200, 'N', 8, 1);
 		modbus_set_slave(mb, 15);
 		modbus_rtu_set_serial_mode(mb, MODBUS_RTU_RS485);
+		modbus_rtu_set_rts(mb, MODBUS_RTU_RTS_UP);
 		int ret = modbus_connect(mb);
 		if (ret != 0) {
 			nullErr("Couldn't open modbus serial device", 0, true);
