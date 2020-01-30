@@ -54,7 +54,7 @@ void ModbusDevice::poll(const std::string& id, std::vector<DATA_TYPE>& result) {
 			result[0] = -66;
 			return;
 	}
-	if (ret != 0) {
+	if (ret < 0) {
 		result.resize(1);
 		result[0] = errno;
 		spdlog::warn("Unable to read params {}: {} ({})", id, errno, modbus_strerror(errno));
