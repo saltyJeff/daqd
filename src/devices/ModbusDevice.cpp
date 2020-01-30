@@ -10,10 +10,12 @@ ModbusDevice::ModbusDevice(const std::string& params, DeviceJson& conf) : DaqDev
 		mb = modbus_new_rtu(params.c_str(), 
 			115200, 'N', 8, 1);
 		modbus_set_slave(mb, 15);
+		modbus_rtu_set_serial_mode(mb, MODBUS_RTU_RS485);
 		int ret = modbus_connect(mb);
 		if (ret != 0) {
-			nullErr("Couldn't open device", 0, true);
+			nullErr("Couldn't open modbus serial device", 0, true);
 		}
+		spdlog::info("Instantiated new modbus device");
 	}
 }
 
@@ -75,5 +77,6 @@ ModbusDevice::~ModbusDevice() {
 	if (--numDevices == 0) {
 		modbus_close(mb);
 		modbus_free(mb);
+		spdlog::warn("modbus device closed");
 	}
 }
