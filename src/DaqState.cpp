@@ -12,7 +12,6 @@ DaqState::DaqState(const std::string backingPath): backingPath(backingPath) {
 	// ensure the existance of the file
 	backingFile.open(backingPath, std::fstream::in);
 	DaqConfigJson tmp;
-	tmp.items["potato"].push_back(ItemJson());
 	try {
 		cereal::JSONInputArchive iarchive(backingFile);
 		cereal::load_inline(iarchive, tmp);
@@ -40,6 +39,9 @@ void DaqState::loadConfig(DaqConfigJson &conf) {
 		DaqDevice *dev = nullptr;
 		if(devConf.devType == "sine") {
 			dev = new SineDevice(devConf.params, devConf);
+		}
+		else if (devConf.devType == "modbusRTU") {
+			dev = new ModbusDevice(devConf.params, devConf);
 		}
 		else {
 			throw new std::runtime_error(std::string("Invalid device type specified"));

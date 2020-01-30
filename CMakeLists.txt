@@ -13,7 +13,7 @@ add_subdirectory(sockpp)
 add_subdirectory(spdlog)
 find_library(modbus libmodbus CONFIG REQUIRED)
 
-file(GLOB_RECURSE SRC_FILES ${PROJECT_SOURCE_DIR}/src/*.cpp ${PROJECT_SOURCE_DIR}/src/*.j)
+file(GLOB_RECURSE SRC_FILES ${PROJECT_SOURCE_DIR}/src/*.cpp ${PROJECT_SOURCE_DIR}/src/*.h)
 
 add_executable(daq_daemon ${SRC_FILES})
 target_link_libraries(daq_daemon sockpp spdlog Threads::Threads modbus)

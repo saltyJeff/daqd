@@ -15,13 +15,18 @@ void poll(DaqState &state) {
 
 		std::vector<DaqItem> &items = state.items[devName];
 		if(dev->pollMode == PollMode::ROUND_ROBIN) {
-			DaqItem &item = items[dev->pollIndex];
-			std::vector<DATA_TYPE> &values = item.values;
-			dev->poll(item.id, values);
-			item.updateValues(values);
-			uint8_t nextIndex = (dev->pollIndex+1) % items.size();
-			dev->pollIndex = nextIndex;
-			state.logItem(item);
+			if (dev->pollIndex >= items.size()) {
+				dev->pollIndex = 0;
+			}
+			else {
+				DaqItem& item = items[dev->pollIndex];
+				std::vector<DATA_TYPE>& values = item.values;
+				dev->poll(item.id, values);
+				item.updateValues(values);
+				uint8_t nextIndex = (dev->pollIndex + 1) % items.size();
+				dev->pollIndex = nextIndex;
+				state.logItem(item);
+			}
 		}
 		else if(dev->pollMode == PollMode::SINGLE_SHOT) {
 			for(auto &item : items) {

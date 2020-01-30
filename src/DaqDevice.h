@@ -11,6 +11,7 @@
 #include "dataclasses/PollMode.h"
 #include "COMPILE_OPTS.h"
 #include "dataclasses/DeviceJson.h"
+
 class DaqDevice {
 public:
 	PollMode pollMode = PollMode::ROUND_ROBIN;
