@@ -1,3 +1,4 @@
+#include <stdexcept>
 #include "DaqState.h"
 #include "poll.h"
 #include <iostream>

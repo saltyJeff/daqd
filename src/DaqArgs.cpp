@@ -3,6 +3,7 @@
 #include <iostream>
 #include <pwd.h>
 #include <unistd.h>
+#include <stdexcept>
 
 // looks like CS111 finally paid off
 struct option long_options[] = {
