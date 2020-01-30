@@ -14,7 +14,7 @@ find_library(modbus libmodbus CONFIG REQUIRED)
 file(GLOB_RECURSE SRC_FILES ${PROJECT_SOURCE_DIR}/src/*.cpp ${PROJECT_SOURCE_DIR}/src/*.h)
 
 add_executable(daq_daemon ${SRC_FILES})
-target_link_libraries(daq_daemon sockpp_lib spdlog Threads::Threads modbus)
+target_link_libraries(daq_daemon sockpp_lib spdlog::spdlog Threads::Threads modbus)
 
 set_target_properties(daq_daemon PROPERTIES OUTPUT_NAME "daqd")
 

@@ -11,3 +11,5 @@ SET(CMAKE_FIND_ROOT_PATH_MODE_PROGRAM NEVER)
 # Search for libraries and headers in the target directories only
 # SET(CMAKE_FIND_ROOT_PATH_MODE_LIBRARY ONLY)
 # SET(CMAKE_FIND_ROOT_PATH_MODE_INCLUDE ONLY)
+
+set (CMAKE_CXX_FLAGS "-std=c++14 -fsigned-char")
