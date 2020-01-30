@@ -29,7 +29,7 @@ void ModbusDevice::poll(const std::string& id, std::vector<DATA_TYPE>& result) {
 	int deviceId, reg, numReg;
 	char regType;
 	sscanf(id.c_str(), "%d+%c@%d:%d", &deviceId, &regType, &reg, &numReg);
-	spdlog::info("Parsed params: {} {} {} {} {}", deviceId, regType, reg, numReg);
+	spdlog::info("Parsed params: {} {} {} {}", deviceId, regType, reg, numReg);
 	//modbus_set_slave(mb, deviceId);
 	int ret;
 	switch (regType) {
