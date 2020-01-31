@@ -5,6 +5,8 @@
 
 std::string timeString();
 uint64_t millis();
+uint64_t realMillis();
+
 void nullErr(std::string msg, void *anyPtr, bool fatal=false);
 
 inline void microsToTimespec(uint64_t micros, struct timespec* spec) {

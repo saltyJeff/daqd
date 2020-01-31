@@ -18,5 +18,5 @@ void DaqItem::updateValues(const std::vector<DATA_TYPE>& newVals) {
 	for (int i = 0; i < n; i++) {
 		values[i] = newVals[i] * scale + offset; //y = mx+b
 	}
-	lastPoll = millis();
+	lastPoll = realMillis();
 }

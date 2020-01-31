@@ -19,6 +19,10 @@ uint64_t millis() {
 	clock_gettime(CLOCK_MONOTONIC_RAW, &timeSpec);
 	return (timeSpec.tv_sec * 1000) + timeSpec.tv_nsec / (1000 * 1000);
 }
+uint64_t realMillis() {
+	clock_gettime(CLOCK_REALTIME, &timeSpec);
+	return (timeSpec.tv_sec * 1000) + timeSpec.tv_nsec / (1000 * 1000);
+}
 
 void nullErr(std::string msg, void* anyPtr, bool fatal) {
 	if (anyPtr != nullptr) {
