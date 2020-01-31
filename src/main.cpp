@@ -35,15 +35,22 @@ int main(int argc, char **argv) {
 	conf.setLogging(daqArgs.autoRecord);
 
 	while (!die) {
+		uint64_t waitPeriod = conf.config.granularityMicro;
 		if (conf.isLogging()) {
 			poll(conf);
 		}
+		else {
+			// if not logging, we can increase granularity by a factor of 5
+			waitPeriod *= 5;
+		}
+
 		server.handleSocket();
 		if (conf.config.granularityMicro == 0) {
 			continue;
 		}
-		microsToTimespec(conf.config.granularityMicro, &sleepSpec);
+		microsToTimespec(waitPeriod, &sleepSpec);
 		int sleepErr = clock_nanosleep(sleepType, 0, &sleepSpec, nullptr);
+		
 		if (sleepErr != 0) {
 			spdlog::error("Sleep issue: {} ({})\nSwitching clock type to REALTIME (are you on WSL?)", sleepErr, std::strerror(sleepErr));
 			std::cout << sleepSpec.tv_sec << ": " << sleepSpec.tv_nsec << std::endl;

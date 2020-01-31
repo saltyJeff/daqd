@@ -6,6 +6,6 @@
 #define DAQ_DAEMON_COMPILE_OPTS_H
 #include <cstdint>
 
-typedef int32_t DATA_TYPE;
+typedef float DATA_TYPE;
 
 #endif //DAQ_DAEMON_COMPILE_OPTS_H
