@@ -36,13 +36,7 @@ int main(int argc, char **argv) {
 
 	while (!die) {
 		uint64_t waitPeriod = conf.config.granularityMicro;
-		if (conf.isLogging()) {
-			poll(conf);
-		}
-		else {
-			// if not logging, we can increase granularity by a factor of 5
-			waitPeriod *= 5;
-		}
+		poll(conf);
 
 		server.handleSocket();
 		if (conf.config.granularityMicro == 0) {
