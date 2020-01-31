@@ -11,7 +11,7 @@ public:
 	virtual void poll(const std::string& id, std::vector<DATA_TYPE>& result);
 	virtual ~ModbusDevice();
 private:
-	static int numDevices;
+	static bool connected;
 	static modbus_t* mb;
 };
 #endif

@@ -3,28 +3,33 @@
 #include <spdlog/spdlog.h>
 #include <modbus/modbus-rtu.h>
 
-int ModbusDevice::numDevices = 0;
+bool ModbusDevice::connected = false;
 modbus_t *ModbusDevice::mb = nullptr;
 
 ModbusDevice::ModbusDevice(const std::string& params, DeviceJson& conf) : DaqDevice(params, conf) {
-	if (++numDevices == 1) {
-		mb = modbus_new_rtu(params.c_str(), 
+	if (mb == nullptr) {
+		mb = modbus_new_rtu(params.c_str(),
 			115200, 'N', 8, 1);
-		modbus_set_slave(mb, 15);
 		modbus_rtu_set_serial_mode(mb, MODBUS_RTU_RS485);
 		modbus_rtu_set_rts(mb, MODBUS_RTU_RTS_DOWN);
+	}
+	if (!connected) {
 		int ret = modbus_connect(mb);
 		if (ret != 0) {
-			nullErr("Couldn't open modbus serial device", 0, true);
+			spdlog::warn("Couldn't connect to device (did you plug it in?): {} ({})", ret, modbus_strerror(errno));
+			connected = false;
 		}
-		spdlog::info("Instantiated new modbus device");
+		else {
+			spdlog::info("Instantiated new modbus device");
+			connected = true;
+		}
 	}
 }
 
 uint16_t modbusRegs[32];
 uint8_t modbusBits[32];
 void ModbusDevice::poll(const std::string& id, std::vector<DATA_TYPE>& result) {
-	if (mb == nullptr) {
+	if (!connected) {
 		result.resize(1);
 		result[0] = -420;
 		spdlog::warn("Modbus was never intialized!");
@@ -75,9 +80,13 @@ void ModbusDevice::poll(const std::string& id, std::vector<DATA_TYPE>& result) {
 }
 
 ModbusDevice::~ModbusDevice() {
-	if (--numDevices == 0) {
+	if (connected && mb != nullptr) {
 		modbus_close(mb);
+		connected = false;
+	}
+	if(mb != nullptr) {
 		modbus_free(mb);
 		spdlog::warn("modbus device closed");
+		mb = nullptr;
 	}
 }
