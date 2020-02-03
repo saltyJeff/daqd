@@ -6,6 +6,7 @@
 #include <cereal/inlineshim.hpp>
 #include <cereal/archives/json.hpp>
 #include <regex>
+#include "devices/getDevice.h"
 
 DaqState::DaqState(const std::string backingPath): backingPath(backingPath) {
 	spdlog::info("Loading config file from " + backingPath);
@@ -36,14 +37,8 @@ void DaqState::loadConfig(DaqConfigJson &conf) {
 	devices.clear();
 	for(auto& [devName, devConf] : config.devices) {
 		// spawn the correct type of device
-		DaqDevice *dev = nullptr;
-		if(devConf.devType == "sine") {
-			dev = new SineDevice(devConf.params, devConf);
-		}
-		else if (devConf.devType == "modbusRTU") {
-			dev = new ModbusDevice(devConf.params, devConf);
-		}
-		else {
+		DaqDevice *dev = getDevice(devName, devConf);
+		if(dev == nullptr) {
 			throw new std::runtime_error(std::string("Invalid device type specified"));
 		}
 		spdlog::info("Created a {} device", devConf.devType);
